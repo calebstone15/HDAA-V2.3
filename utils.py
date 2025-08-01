@@ -52,6 +52,7 @@ def infer_columns(app):
 def manual_column_selection(app, columns):
     """Prompt the user to manually select columns."""
     ctx = app.ctx  # Get the application context
+    small_font = ("Arial", 12)
 
     def set_columns():
         """Set the selected columns in the context."""
@@ -68,33 +69,38 @@ def manual_column_selection(app, columns):
     win.geometry("1000x1200")  # Set the window size
 
     # Dropdown for time column
-    tk.Label(win, text="Time column:").pack(anchor="w")
+    tk.Label(win, text="Time column:", font=small_font).pack(anchor="w")
     time_var = tk.StringVar(value=ctx.time_col or columns[0])  # Default to the first column
     tk.OptionMenu(win, time_var, *columns).pack(fill=tk.X)
+    win.nametowidget(win.winfo_children()[-1]).config(font=small_font)  # Set font for OptionMenu
 
     # Checkboxes for thrust columns
-    tk.Label(win, text="Thrust columns:").pack(anchor="w")
+    tk.Label(win, text="Thrust columns:", font=small_font).pack(anchor="w")
     thrust_vars = {c: tk.BooleanVar(value=c in ctx.thrust_cols) for c in columns}  # Create a checkbox for each column
     for c, var in thrust_vars.items():
-        tk.Checkbutton(win, text=c, variable=var).pack(anchor="w")
+        cb = tk.Checkbutton(win, text=c, variable=var, font=small_font)
+        cb.pack(anchor="w")
 
     # Dropdown for chamber pressure column
-    tk.Label(win, text="Chamber pressure column:").pack(anchor="w")
+    tk.Label(win, text="Chamber pressure column:", font=small_font).pack(anchor="w")
     chamber_var = tk.StringVar(value=ctx.chamber_col or columns[0])  # Default to the first column
     tk.OptionMenu(win, chamber_var, *columns).pack(fill=tk.X)
+    win.nametowidget(win.winfo_children()[-1]).config(font=small_font)
 
     # Dropdown for fuel weight column
-    tk.Label(win, text="Fuel weight column:").pack(anchor="w")
+    tk.Label(win, text="Fuel weight column:", font=small_font).pack(anchor="w")
     fuel_var = tk.StringVar(value=ctx.fuel_col or "")  # Default to empty
     tk.OptionMenu(win, fuel_var, *columns).pack(fill=tk.X)
+    win.nametowidget(win.winfo_children()[-1]).config(font=small_font)
 
     # Dropdown for oxidizer weight column
-    tk.Label(win, text="Oxidizer weight column:").pack(anchor="w")
+    tk.Label(win, text="Oxidizer weight column:", font=small_font).pack(anchor="w")
     oxidizer_var = tk.StringVar(value=ctx.oxidizer_col or "")  # Default to empty
     tk.OptionMenu(win, oxidizer_var, *columns).pack(fill=tk.X)
+    win.nametowidget(win.winfo_children()[-1]).config(font=small_font)
 
     # Confirm button to save selections
-    tk.Button(win, text="Confirm", command=set_columns).pack(pady=10)
+    tk.Button(win, text="Confirm", command=set_columns, font=small_font).pack(pady=10)
     win.transient(app)  # Make the window modal
     win.grab_set()  # Prevent interaction with the main window
     app.wait_window(win)  # Wait for the window to close
