@@ -22,7 +22,7 @@ def run(app):
     # Convert mdot from lbs/s to slugs/s (1 slug = 32.174 lbs)
     mdot = mdot_lbs / 32.174
 
-    # Define gravity constant in ft/s^2
+    # Define gravity constant
     gravity = 32.174  # ft/s^2
 
     # Apply extra data mask and downsample
